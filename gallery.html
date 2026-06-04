@@ -274,6 +274,47 @@
       border: 1px solid rgba(255,255,200,0.2);
     }
     
+    /* Warm message after gallery - "… and many more to make.☺️" */
+    .hope-message {
+      text-align: center;
+      margin: 32px auto 20px;
+      padding: 20px 24px;
+      max-width: 600px;
+    }
+    .hope-message .message-card {
+      background: rgba(255, 245, 220, 0.15);
+      backdrop-filter: blur(12px);
+      border-radius: 80px;
+      padding: 12px 28px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: #FFF5E6;
+      border: 1px solid rgba(255, 220, 150, 0.5);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    .hope-message .message-card i {
+      font-size: 1.5rem;
+      color: #FFE2B5;
+    }
+    .hope-message .message-card:hover {
+      background: rgba(255, 245, 220, 0.28);
+      transform: scale(1.02);
+      border-color: rgba(255, 220, 150, 0.8);
+    }
+    @media (max-width: 640px) {
+      .hope-message .message-card {
+        font-size: 1rem;
+        padding: 10px 20px;
+      }
+      .hope-message .message-card i {
+        font-size: 1.2rem;
+      }
+    }
+    
     /* Lightbox overrides: keep focus on images, no captions */
     .lb-data .lb-caption, .lb-data .lb-number {
       display: none !important;
@@ -396,6 +437,16 @@
       
       <!-- Dynamic gallery grid -->
       <div id="galleryGrid" class="stylish-gallery"></div>
+      
+      <!-- 🧡 Heartfelt message after the photos: "… and many more to make.☺️" -->
+      <div class="hope-message" id="hopeMessageContainer" style="display: none;">
+        <div class="message-card">
+          <i class="fas fa-seedling"></i>
+          <span>… and many more to make. ☺️</span>
+          <i class="fas fa-heart" style="font-size: 1.1rem;"></i>
+        </div>
+      </div>
+      
     </div>
 
     <footer class="bg-black/30 text-white/80 py-8 text-center text-sm backdrop-blur-sm mt-8">
@@ -441,10 +492,7 @@
     // For a seamless experience, we will check if images exist and display anyway.
     // =============================================
     
-    // If you want to use more images beyond these four, just uncomment and add:
-    // "images/photo5.jpg", "images/photo6.jpg"
-    
-    // Combine main images (already includes 4). For now, using the exact array.
+    // Combine main images (already includes 4).
     let galleryPhotos = [...LOCAL_IMAGES];
     
     // For extra safety: remove any potential duplicates or empty entries
@@ -453,6 +501,7 @@
     // DOM Elements
     const galleryContainer = document.getElementById('galleryGrid');
     const photoCountSpan = document.getElementById('photoCountDisplay');
+    const hopeMessageDiv = document.getElementById('hopeMessageContainer');
     
     // Helper: update lightbox config and custom styling
     function configLightboxMinimal() {
@@ -486,11 +535,32 @@
       }
     }
     
+    // Show the "… and many more to make.☺️" message after gallery is rendered
+    function showHopeMessage() {
+      if (hopeMessageDiv && galleryPhotos.length > 0) {
+        // Small delay for smoother appearance after images load
+        setTimeout(() => {
+          hopeMessageDiv.style.display = 'block';
+          // Add subtle entrance animation
+          hopeMessageDiv.style.opacity = '0';
+          hopeMessageDiv.style.transform = 'translateY(10px)';
+          hopeMessageDiv.style.transition = 'opacity 0.5s ease, transform 0.4s ease';
+          setTimeout(() => {
+            hopeMessageDiv.style.opacity = '1';
+            hopeMessageDiv.style.transform = 'translateY(0)';
+          }, 50);
+        }, 300);
+      } else if (hopeMessageDiv && galleryPhotos.length === 0) {
+        // If no images, hide the message because no memories to extend from
+        hopeMessageDiv.style.display = 'none';
+      }
+    }
+    
     // Render glassmorphic gallery cards with local images
     function renderLocalGallery(imagesArray) {
       if (!galleryContainer) return;
       
-      // If there are no images, display a warm empty state
+      // If there are no images, display a warm empty state (and hide hopeful message)
       if (!imagesArray.length) {
         galleryContainer.innerHTML = `
           <div class="empty-state">
@@ -501,6 +571,7 @@
           </div>
         `;
         if (photoCountSpan) photoCountSpan.innerText = '0';
+        if (hopeMessageDiv) hopeMessageDiv.style.display = 'none';
         return;
       }
       
@@ -541,13 +612,12 @@
         }, 100);
       }
       
+      // Display the hopeful message "… and many more to make.☺️"
+      showHopeMessage();
+      
       // Also add small console info for developers (silent success)
-      console.log(`✨ JY Gallery: ${imagesArray.length} beautiful moments loaded.`);
+      console.log(`✨ JY Gallery: ${imagesArray.length} beautiful moments loaded. ✨ "${imagesArray.length} memories and many more to make ☺️"`);
     }
-    
-    // Function to pre-check image existence optionally (soft fail handled by onerror)
-    // We directly render; broken images will fallback to placeholder but user sees that
-    // They can replace with actual photos. This ensures the gallery structure is always beautiful.
     
     // MAIN INITIALIZATION
     document.addEventListener('DOMContentLoaded', () => {
