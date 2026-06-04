@@ -7,7 +7,6 @@
   <!-- Tailwind CSS v3 + Font Awesome Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- Custom Lightbox CSS (no external dependency for full control) -->
   <style>
     html {
       scroll-behavior: smooth;
@@ -16,7 +15,7 @@
       font-family: system-ui, 'Segoe UI', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
     
-    /* glossy orange gradient background – warm & vibrant */
+    /* glossy orange gradient background */
     .glossy-orange-bg {
       background: linear-gradient(135deg, #FF8C42 0%, #FF6B35 50%, #F25E2C 100%);
       position: relative;
@@ -33,7 +32,6 @@
       pointer-events: none;
     }
     
-    /* Background Logo Watermark */
     .bg-logo {
       position: fixed;
       pointer-events: none;
@@ -41,46 +39,20 @@
       object-fit: contain;
     }
     @media (orientation: portrait) {
-      .bg-logo {
-        bottom: 20px;
-        right: -100px;
-        width: 70%;
-        max-width: 800px;
-        opacity: 0.12;
-      }
+      .bg-logo { bottom: 20px; right: -100px; width: 70%; max-width: 800px; opacity: 0.12; }
     }
     @media (orientation: landscape) {
-      .bg-logo {
-        bottom: -50px;
-        right: -80px;
-        width: 40%;
-        max-width: 500px;
-        opacity: 0.1;
-      }
+      .bg-logo { bottom: -50px; right: -80px; width: 40%; max-width: 500px; opacity: 0.1; }
     }
     @media (min-width: 768px) and (orientation: portrait) {
-      .bg-logo {
-        right: -150px;
-        bottom: 50px;
-        width: 60%;
-        opacity: 0.1;
-      }
+      .bg-logo { right: -150px; bottom: 50px; width: 60%; opacity: 0.1; }
     }
     @media (min-width: 1024px) {
-      .bg-logo {
-        right: -200px;
-        bottom: 80px;
-        width: 50%;
-        opacity: 0.08;
-      }
+      .bg-logo { right: -200px; bottom: 80px; width: 50%; opacity: 0.08; }
     }
     
-    .content-wrapper {
-      position: relative;
-      z-index: 1;
-    }
+    .content-wrapper { position: relative; z-index: 1; }
     
-    /* Glass morphism header */
     .curved-glass-header {
       background: rgba(255, 140, 66, 0.95);
       backdrop-filter: blur(10px);
@@ -91,7 +63,6 @@
       z-index: 100;
     }
     
-    /* Sidebar Menu */
     .sidebar-menu {
       position: fixed;
       top: 0;
@@ -105,9 +76,7 @@
       transform: translateX(100%);
       transition: transform 0.3s ease-in-out;
     }
-    .sidebar-menu.open {
-      transform: translateX(0);
-    }
+    .sidebar-menu.open { transform: translateX(0); }
     .sidebar-menu a {
       color: rgba(255, 255, 255, 0.9);
       font-weight: 600;
@@ -121,10 +90,7 @@
       border: 1px solid rgba(255, 255, 255, 0.15);
       text-decoration: none;
     }
-    .sidebar-menu a:hover {
-      background: rgba(255, 255, 255, 0.1);
-      transform: translateX(-5px);
-    }
+    .sidebar-menu a:hover { background: rgba(255, 255, 255, 0.1); transform: translateX(-5px); }
     .menu-overlay {
       position: fixed;
       top: 0;
@@ -136,11 +102,9 @@
       z-index: 999;
       display: none;
     }
-    .menu-overlay.active {
-      display: block;
-    }
+    .menu-overlay.active { display: block; }
     
-    /* ===== STYLISH GALLERY LAYOUT ===== */
+    /* GALLERY GRID */
     .stylish-gallery {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -149,7 +113,6 @@
       max-width: 1400px;
       margin: 0 auto;
     }
-    
     .gallery-card {
       position: relative;
       background: rgba(255, 255, 255, 0.12);
@@ -164,144 +127,49 @@
       opacity: 0;
       transform: scale(0.96);
     }
-    
-    @keyframes fadeScaleUp {
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-    
-    .gallery-card:hover {
-      transform: translateY(-8px) scale(1.02);
-      background: rgba(255, 255, 255, 0.2);
-      border-color: rgba(255, 255, 255, 0.5);
-      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.4);
-    }
-    
-    .card-image {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      overflow: hidden;
-      position: relative;
-    }
-    
-    .card-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-      display: block;
-    }
-    
-    .gallery-card:hover .card-image img {
-      transform: scale(1.08);
-    }
-    
+    @keyframes fadeScaleUp { to { opacity: 1; transform: scale(1); } }
+    .gallery-card:hover { transform: translateY(-8px) scale(1.02); background: rgba(255, 255, 255, 0.2); border-color: rgba(255, 255, 255, 0.5); }
+    .card-image { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; position: relative; }
+    .card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; display: block; }
+    .gallery-card:hover .card-image img { transform: scale(1.08); }
     .card-overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 60%;
+      position: absolute; bottom: 0; left: 0; right: 0; height: 60%;
       background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
+      opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
     }
+    .gallery-card:hover .card-overlay { opacity: 1; }
     
-    .gallery-card:hover .card-overlay {
-      opacity: 1;
-    }
-    
-    .gallery-header {
-      text-align: center;
-      padding: 32px 20px 16px;
-    }
+    .gallery-header { text-align: center; padding: 32px 20px 16px; }
     .gallery-header h1 {
-      font-size: 2.5rem;
-      font-weight: 800;
+      font-size: 2.5rem; font-weight: 800;
       background: linear-gradient(135deg, #FFFFFF, #FFE0B5);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      -webkit-background-clip: text; background-clip: text; color: transparent;
       text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      letter-spacing: -0.02em;
     }
-    .gallery-header p {
-      color: rgba(255,245,220,0.9);
-      font-weight: 500;
-      margin-top: 8px;
-      font-size: 1rem;
-    }
+    .gallery-header p { color: rgba(255,245,220,0.9); font-weight: 500; margin-top: 8px; }
     .photo-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(8px);
-      padding: 6px 18px;
-      border-radius: 60px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: #FFF2DF;
-      margin-top: 16px;
-      border: 1px solid rgba(255,255,200,0.3);
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.15); backdrop-filter: blur(8px);
+      padding: 6px 18px; border-radius: 60px; font-size: 0.85rem;
+      color: #FFF2DF; margin-top: 16px; border: 1px solid rgba(255,255,200,0.3);
     }
-    
-    .ornament {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin: 8px 0 4px;
-    }
-    .ornament span {
-      width: 40px;
-      height: 2px;
-      background: rgba(255,215,150,0.6);
-      border-radius: 2px;
-    }
-    
+    .ornament { display: flex; justify-content: center; gap: 12px; margin: 8px 0 4px; }
+    .ornament span { width: 40px; height: 2px; background: rgba(255,215,150,0.6); border-radius: 2px; }
     .empty-state {
-      text-align: center;
-      padding: 80px 30px;
-      background: rgba(255,255,240,0.08);
-      backdrop-filter: blur(12px);
-      border-radius: 56px;
-      margin: 40px auto;
-      max-width: 500px;
-      border: 1px solid rgba(255,255,200,0.2);
+      text-align: center; padding: 80px 30px;
+      background: rgba(255,255,240,0.08); backdrop-filter: blur(12px);
+      border-radius: 56px; margin: 40px auto; max-width: 500px;
     }
-    
-    /* Warm message after gallery */
-    .hope-message {
-      text-align: center;
-      margin: 32px auto 20px;
-      padding: 20px 24px;
-      max-width: 600px;
-    }
+    .hope-message { text-align: center; margin: 32px auto 20px; padding: 20px 24px; max-width: 600px; }
     .hope-message .message-card {
-      background: rgba(255, 245, 220, 0.15);
-      backdrop-filter: blur(12px);
-      border-radius: 80px;
-      padding: 12px 28px;
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 1.25rem;
-      font-weight: 500;
-      color: #FFF5E6;
-      border: 1px solid rgba(255, 220, 150, 0.5);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
+      background: rgba(255, 245, 220, 0.15); backdrop-filter: blur(12px); border-radius: 80px;
+      padding: 12px 28px; display: inline-flex; align-items: center; gap: 12px;
+      font-size: 1.25rem; font-weight: 500; color: #FFF5E6;
+      border: 1px solid rgba(255, 220, 150, 0.5); transition: all 0.3s ease;
     }
-    .hope-message .message-card:hover {
-      background: rgba(255, 245, 220, 0.28);
-      transform: scale(1.02);
-      border-color: rgba(255, 220, 150, 0.8);
-    }
+    .hope-message .message-card:hover { background: rgba(255, 245, 220, 0.28); transform: scale(1.02); }
     
-    /* ===== CUSTOM LIGHTBOX - CENTERED WITH ORANGE GLASS STYLING ===== */
+    /* === CUSTOM LIGHTBOX - pure image, no text hints === */
     .custom-lightbox {
       display: none;
       position: fixed;
@@ -309,14 +177,14 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(8px);
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(12px);
       z-index: 2000;
       justify-content: center;
       align-items: center;
-      cursor: pointer;
       opacity: 0;
       transition: opacity 0.3s ease;
+      cursor: pointer;
     }
     .custom-lightbox.active {
       display: flex;
@@ -326,23 +194,10 @@
       position: relative;
       max-width: 90vw;
       max-height: 90vh;
-      background: linear-gradient(135deg, rgba(255, 140, 66, 0.2), rgba(255, 107, 53, 0.15));
-      backdrop-filter: blur(20px);
-      border-radius: 32px;
-      padding: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(255, 140, 66, 0.3);
-      animation: zoomIn 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-    }
-    @keyframes zoomIn {
-      from {
-        transform: scale(0.9);
-        opacity: 0;
-      }
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
     }
     .lightbox-image {
       display: block;
@@ -351,129 +206,32 @@
       width: auto;
       height: auto;
       object-fit: contain;
-      border-radius: 24px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-    .lightbox-close {
-      position: absolute;
-      top: -16px;
-      right: -16px;
-      background: rgba(255, 140, 66, 0.95);
-      backdrop-filter: blur(8px);
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      font-weight: bold;
-      color: white;
+      border-radius: 28px;
+      background: rgba(255, 140, 66, 0.08);
+      backdrop-filter: blur(4px);
+      padding: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      transition: transform 0.1s ease;
       cursor: pointer;
-      transition: all 0.2s ease;
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
-    .lightbox-close:hover {
-      background: #FF6B35;
-      transform: scale(1.1);
-    }
-    .lightbox-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      pointer-events: none;
-      padding: 0 20px;
-    }
-    .lightbox-prev, .lightbox-next {
-      background: rgba(255, 140, 66, 0.85);
-      backdrop-filter: blur(8px);
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      pointer-events: auto;
-      transition: all 0.2s ease;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      color: white;
-      font-size: 24px;
-    }
-    .lightbox-prev:hover, .lightbox-next:hover {
-      background: #FF6B35;
-      transform: scale(1.1);
-    }
-    .lightbox-counter {
-      position: absolute;
-      bottom: -40px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255, 140, 66, 0.85);
-      backdrop-filter: blur(8px);
-      padding: 6px 16px;
-      border-radius: 40px;
-      font-size: 0.9rem;
-      color: white;
-      font-weight: 500;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      white-space: nowrap;
-    }
-    @media (max-width: 640px) {
-      .lightbox-prev, .lightbox-next {
-        width: 40px;
-        height: 40px;
-        font-size: 18px;
-      }
-      .lightbox-close {
-        width: 36px;
-        height: 36px;
-        top: -12px;
-        right: -12px;
-        font-size: 22px;
-      }
-      .lightbox-content {
-        padding: 8px;
-      }
+    .lightbox-image:active {
+      transform: scale(0.98);
     }
     
     @media (max-width: 640px) {
-      .stylish-gallery {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        gap: 12px;
-        padding: 16px;
-      }
-      .gallery-header h1 {
-        font-size: 1.8rem;
-      }
-      .hope-message .message-card {
-        font-size: 1rem;
-        padding: 10px 20px;
-      }
+      .stylish-gallery { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; padding: 16px; }
+      .gallery-header h1 { font-size: 1.8rem; }
+      .hope-message .message-card { font-size: 1rem; padding: 10px 20px; }
+      .lightbox-image { max-width: 90vw; max-height: 80vh; }
     }
-    
     @media (min-width: 1024px) {
-      .stylish-gallery {
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 28px;
-        padding: 32px 40px;
-      }
+      .stylish-gallery { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 28px; padding: 32px 40px; }
     }
-    
     .gallery-card:nth-child(1) { animation-delay: 0.02s; }
     .gallery-card:nth-child(2) { animation-delay: 0.05s; }
     .gallery-card:nth-child(3) { animation-delay: 0.08s; }
     .gallery-card:nth-child(4) { animation-delay: 0.11s; }
-    .gallery-card:nth-child(5) { animation-delay: 0.14s; }
-    .gallery-card:nth-child(6) { animation-delay: 0.17s; }
-    .gallery-card:nth-child(7) { animation-delay: 0.20s; }
-    .gallery-card:nth-child(8) { animation-delay: 0.23s; }
-    .gallery-card:nth-child(9) { animation-delay: 0.26s; }
-    .gallery-card:nth-child(10) { animation-delay: 0.29s; }
   </style>
 </head>
 <body class="glossy-orange-bg">
@@ -521,11 +279,7 @@
   <main class="content-wrapper">
     <div class="pt-24 pb-12">
       <div class="gallery-header">
-        <div class="ornament">
-          <span></span>
-          <i class="fas fa-camera-retro text-amber-200/70 text-sm"></i>
-          <span></span>
-        </div>
+        <div class="ornament"><span></span><i class="fas fa-camera-retro text-amber-200/70 text-sm"></i><span></span></div>
         <h1>Sacred Moments</h1>
         <p>glimpses of faith, fellowship & joy</p>
         <div class="photo-badge" id="photoBadge">
@@ -560,51 +314,43 @@
     </footer>
   </main>
 
-  <!-- Custom Lightbox HTML -->
+  <!-- Custom Lightbox - No buttons, no text hints, tap/click image = next -->
   <div id="customLightbox" class="custom-lightbox">
     <div class="lightbox-content">
       <img id="lightboxImg" class="lightbox-image" src="" alt="Enlarged view">
-      <div class="lightbox-close" id="lightboxClose">×</div>
     </div>
-    <div class="lightbox-nav">
-      <div class="lightbox-prev" id="lightboxPrev">‹</div>
-      <div class="lightbox-next" id="lightboxNext">›</div>
-    </div>
-    <div class="lightbox-counter" id="lightboxCounter"></div>
   </div>
 
   <script>
-    // =========== LOCAL IMAGES ===========
+    // =========== YOUR PHOTOS ===========
     const LOCAL_IMAGES = [
       "images/photo1.jpg",
       "images/photo2.jpg",
       "images/photo3.jpg",
       "images/photo4.jpg"
     ];
+    // 👆 Add more photos: "images/photo5.jpg", "images/photo6.jpg",
     
-    let galleryPhotos = [...LOCAL_IMAGES].filter(path => path && path.trim() !== "");
+    let galleryPhotos = [...LOCAL_IMAGES].filter(p => p && p.trim());
     
-    // DOM Elements
+    // DOM elements
     const galleryContainer = document.getElementById('galleryGrid');
     const photoCountSpan = document.getElementById('photoCountDisplay');
     const hopeMessageDiv = document.getElementById('hopeMessageContainer');
     
-    // Custom Lightbox Elements
+    // Lightbox elements
     const lightbox = document.getElementById('customLightbox');
     const lightboxImg = document.getElementById('lightboxImg');
-    const lightboxClose = document.getElementById('lightboxClose');
-    const lightboxPrev = document.getElementById('lightboxPrev');
-    const lightboxNext = document.getElementById('lightboxNext');
-    const lightboxCounter = document.getElementById('lightboxCounter');
     
-    let currentImageIndex = 0;
+    let currentIdx = 0;
+    let touchStartX = 0;
+    let touchEndX = 0;
     
-    // Open lightbox with centered image
+    // Open lightbox at specific image
     function openLightbox(index) {
-      if (!galleryPhotos[index]) return;
-      currentImageIndex = index;
-      lightboxImg.src = galleryPhotos[currentImageIndex];
-      updateCounter();
+      if (!galleryPhotos.length) return;
+      currentIdx = (index + galleryPhotos.length) % galleryPhotos.length;
+      lightboxImg.src = galleryPhotos[currentIdx];
       lightbox.classList.add('active');
       document.body.style.overflow = 'hidden';
     }
@@ -615,80 +361,87 @@
     }
     
     function nextImage() {
-      currentImageIndex = (currentImageIndex + 1) % galleryPhotos.length;
-      lightboxImg.src = galleryPhotos[currentImageIndex];
-      updateCounter();
+      if (!galleryPhotos.length) return;
+      currentIdx = (currentIdx + 1) % galleryPhotos.length;
+      lightboxImg.src = galleryPhotos[currentIdx];
+      // subtle haptic-like feedback
+      lightboxImg.style.transform = 'scale(0.98)';
+      setTimeout(() => { if(lightboxImg) lightboxImg.style.transform = ''; }, 120);
     }
     
     function prevImage() {
-      currentImageIndex = (currentImageIndex - 1 + galleryPhotos.length) % galleryPhotos.length;
-      lightboxImg.src = galleryPhotos[currentImageIndex];
-      updateCounter();
+      if (!galleryPhotos.length) return;
+      currentIdx = (currentIdx - 1 + galleryPhotos.length) % galleryPhotos.length;
+      lightboxImg.src = galleryPhotos[currentIdx];
+      lightboxImg.style.transform = 'scale(0.98)';
+      setTimeout(() => { if(lightboxImg) lightboxImg.style.transform = ''; }, 120);
     }
     
-    function updateCounter() {
-      lightboxCounter.textContent = `${currentImageIndex + 1} / ${galleryPhotos.length}`;
-    }
-    
-    // Event listeners for lightbox
-    lightboxClose.addEventListener('click', closeLightbox);
-    lightboxPrev.addEventListener('click', (e) => { e.stopPropagation(); prevImage(); });
-    lightboxNext.addEventListener('click', (e) => { e.stopPropagation(); nextImage(); });
+    // Click handling: background closes, image goes to next
     lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) closeLightbox();
+      // If click is directly on the background overlay, close
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
+      // If click is on the image or its container, go to next photo
+      else if (e.target === lightboxImg || e.target.closest('.lightbox-content')) {
+        nextImage();
+      }
     });
+    
+    // Swipe support for touch devices (mobile)
+    lightboxImg.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    
+    lightboxImg.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      const swipeThreshold = 50;
+      if (touchEndX < touchStartX - swipeThreshold) {
+        // swipe left → next
+        nextImage();
+        e.preventDefault();
+      } else if (touchEndX > touchStartX + swipeThreshold) {
+        // swipe right → previous
+        prevImage();
+        e.preventDefault();
+      }
+    });
+    
+    // Keyboard navigation: left/right arrows + ESC
     document.addEventListener('keydown', (e) => {
       if (!lightbox.classList.contains('active')) return;
       if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowLeft') prevImage();
       if (e.key === 'ArrowRight') nextImage();
+      if (e.key === 'ArrowLeft') prevImage();
     });
     
-    // Render gallery with custom click handler
+    // Render gallery grid
     function renderLocalGallery(imagesArray) {
       if (!galleryContainer) return;
-      
       if (!imagesArray.length) {
-        galleryContainer.innerHTML = `
-          <div class="empty-state">
-            <i class="fas fa-images text-5xl text-white/40 mb-4"></i>
-            <p class="text-white/80 text-xl font-medium">Preparing sacred memories</p>
-            <p class="text-white/60 text-sm mt-2">We'll soon fill this gallery with fellowship moments</p>
-            <div class="mt-4 inline-block px-4 py-1 bg-white/10 rounded-full text-amber-200 text-xs">Psalm 145:5</div>
-          </div>
-        `;
+        galleryContainer.innerHTML = `<div class="empty-state"><i class="fas fa-images text-5xl text-white/40 mb-4"></i><p class="text-white/80 text-xl font-medium">Preparing sacred memories</p><p class="text-white/60 text-sm mt-2">Soon we'll share beautiful moments</p></div>`;
         if (photoCountSpan) photoCountSpan.innerText = '0';
         if (hopeMessageDiv) hopeMessageDiv.style.display = 'none';
         return;
       }
       
-      let cardsHtml = '';
+      let html = '';
       for (let i = 0; i < imagesArray.length; i++) {
-        const imgPath = imagesArray[i];
-        cardsHtml += `
-          <div class="gallery-card" data-index="${i}">
-            <div class="card-image">
-              <img src="${imgPath}" alt="Jesus Youth KMC memory" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/600x600?text=JY+Faith&bg=FF8C42&textColor=white';">
-              <div class="card-overlay"></div>
-            </div>
-          </div>
-        `;
+        html += `<div class="gallery-card" data-index="${i}"><div class="card-image"><img src="${imagesArray[i]}" alt="Campus memory" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/600x600?text=JY+Faith&bg=FF8C42&textColor=white';"><div class="card-overlay"></div></div></div>`;
       }
+      galleryContainer.innerHTML = html;
       
-      galleryContainer.innerHTML = cardsHtml;
-      
-      // Attach click handlers to each gallery card
       document.querySelectorAll('.gallery-card').forEach(card => {
         card.addEventListener('click', (e) => {
-          const index = parseInt(card.getAttribute('data-index'), 10);
-          if (!isNaN(index)) openLightbox(index);
+          const idx = parseInt(card.getAttribute('data-index'), 10);
+          if (!isNaN(idx)) openLightbox(idx);
         });
       });
       
       if (photoCountSpan) photoCountSpan.innerText = imagesArray.length;
       
-      // Show hopeful message
-      if (hopeMessageDiv && imagesArray.length > 0) {
+      if (hopeMessageDiv && imagesArray.length) {
         setTimeout(() => {
           hopeMessageDiv.style.display = 'block';
           hopeMessageDiv.style.opacity = '0';
@@ -698,13 +451,10 @@
             hopeMessageDiv.style.opacity = '1';
             hopeMessageDiv.style.transform = 'translateY(0)';
           }, 50);
-        }, 300);
-      } else if (hopeMessageDiv) {
-        hopeMessageDiv.style.display = 'none';
+        }, 200);
       }
     }
     
-    // Initialize
     document.addEventListener('DOMContentLoaded', () => {
       renderLocalGallery(galleryPhotos);
     });
@@ -714,34 +464,14 @@
     const mobileMenu = document.getElementById('mobileMenu');
     const closeMenuBtn = document.getElementById('closeMenu');
     const menuOverlay = document.getElementById('menuOverlay');
-    
-    function openMenu() {
-      if (mobileMenu && menuOverlay) {
-        mobileMenu.classList.add('open');
-        menuOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      }
-    }
-    function closeMenuFunction() {
-      if (mobileMenu && menuOverlay) {
-        mobileMenu.classList.remove('open');
-        menuOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-    }
+    function openMenu() { if (mobileMenu && menuOverlay) { mobileMenu.classList.add('open'); menuOverlay.classList.add('active'); document.body.style.overflow = 'hidden'; } }
+    function closeMenuFunc() { if (mobileMenu && menuOverlay) { mobileMenu.classList.remove('open'); menuOverlay.classList.remove('active'); document.body.style.overflow = ''; } }
     if (menuBtn) menuBtn.addEventListener('click', openMenu);
-    if (closeMenuBtn) closeMenuBtn.addEventListener('click', closeMenuFunction);
-    if (menuOverlay) menuOverlay.addEventListener('click', closeMenuFunction);
-    document.querySelectorAll('.mobile-nav-link').forEach(link => {
-      link.addEventListener('click', closeMenuFunction);
-    });
-    
-    function setVH() {
-      let vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty('--vh', `${vh}px`);
-    }
-    window.addEventListener('resize', setVH);
-    setVH();
+    if (closeMenuBtn) closeMenuBtn.addEventListener('click', closeMenuFunc);
+    if (menuOverlay) menuOverlay.addEventListener('click', closeMenuFunc);
+    document.querySelectorAll('.mobile-nav-link').forEach(link => link.addEventListener('click', closeMenuFunc));
+    function setVH() { let vh = window.innerHeight * 0.01; document.documentElement.style.setProperty('--vh', `${vh}px`); }
+    window.addEventListener('resize', setVH); setVH();
   </script>
 </body>
 </html>
