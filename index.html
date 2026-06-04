@@ -1,1 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Jesus Youth KMC | Sacred Moments Gallery – Campus Ministry</title>
+  <!-- Tailwind CSS v3 + Font Awesome Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Lightbox for fullscreen view (sleek & minimal) -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet" />
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: system-ui, 'Segoe UI', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    /* glossy orange gradient background – warm & vibrant */
+    .glossy-orange-bg {
+      background: linear-gradient(135deg, #FF8C42 0%, #FF6B35 50%, #F25E2C 100%);
+      position: relative;
+    }
+    .glossy-orange-bg::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(125deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 40%);
+      pointer-events: none;
+    }
+    
+    /* Background Logo Watermark (soft brand identity) */
+    .bg-logo {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      object-fit: contain;
+    }
+    @media (orientation: portrait) {
+      .bg-logo {
+        bottom: 20px;
+        right: -100px;
+        width: 70%;
+        max-width: 800px;
+        opacity: 0.12;
+      }
+    }
+    @media (orientation: landscape) {
+      .bg-logo {
+        bottom: -50px;
+        right: -80px;
+        width: 40%;
+        max-width: 500px;
+        opacity: 0.1;
+      }
+    }
+    @media (min-width: 768px) and (orientation: portrait) {
+      .bg-logo {
+        right: -150px;
+        bottom: 50px;
+        width: 60%;
+        opacity: 0.1;
+      }
+    }
+    @media (min-width: 1024px) {
+      .bg-logo {
+        right: -200px;
+        bottom: 80px;
+        width: 50%;
+        opacity: 0.08;
+      }
+    }
+    
+    .content-wrapper {
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Glass morphism header – sleek & modern */
+    .curved-glass-header {
+      background: rgba(255, 140, 66, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 0 0 30px 30px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      position: relative;
+      z-index: 100;
+    }
+    
+    /* Sidebar Menu for mobile */
+    .sidebar-menu {
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: 75%;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      box-shadow: -5px 0 30px rgba(0,0,0,0.2);
+      z-index: 1000;
+      transform: translateX(100%);
+      transition: transform 0.3s ease-in-out;
+    }
+    .sidebar-menu.open {
+      transform: translateX(0);
+    }
+    .sidebar-menu a {
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 600;
+      padding: 14px 20px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: transparent;
+      margin-bottom: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      text-decoration: none;
+    }
+    .sidebar-menu a:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateX(-5px);
+    }
+    .menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(2px);
+      z-index: 999;
+      display: none;
+    }
+    .menu-overlay.active {
+      display: block;
+    }
+    
+    /* ===== STYLISH GALLERY LAYOUT ===== */
+    .stylish-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 20px 24px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    /* gallery glass cards */
+    .gallery-card {
+      position: relative;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 15px 35px -12px rgba(0, 0, 0, 0.3);
+      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      animation: fadeScaleUp 0.5s ease forwards;
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    
+    @keyframes fadeScaleUp {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    .gallery-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.4);
+    }
+    
+    .card-image {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+      display: block;
+    }
+    
+    .gallery-card:hover .card-image img {
+      transform: scale(1.08);
+    }
+    
+    .card-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60%;
+      background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    
+    .gallery-card:hover .card-overlay {
+      opacity: 1;
+    }
+    
+    .gallery-header {
+      text-align: center;
+      padding: 32px 20px 16px;
+    }
+    .gallery-header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #FFFFFF, #FFE0B5);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      letter-spacing: -0.02em;
+    }
+    .gallery-header p {
+      color: rgba(255,245,220,0.9);
+      font-weight: 500;
+      margin-top: 8px;
+      font-size: 1rem;
+    }
+    .photo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(8px);
+      padding: 6px 18px;
+      border-radius: 60px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #FFF2DF;
+      margin-top: 16px;
+      border: 1px solid rgba(255,255,200,0.3);
+    }
+    
+    .ornament {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 8px 0 4px;
+    }
+    .ornament span {
+      width: 40px;
+      height: 2px;
+      background: rgba(255,215,150,0.6);
+      border-radius: 2px;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 80px 30px;
+      background: rgba(255,255,240,0.08);
+      backdrop-filter: blur(12px);
+      border-radius: 56px;
+      margin: 40px auto;
+      max-width: 500px;
+      border: 1px solid rgba(255,255,200,0.2);
+    }
+    
+    /* Lightbox overrides: keep focus on images, no captions */
+    .lb-data .lb-caption, .lb-data .lb-number {
+      display: none !important;
+    }
+    .lb-close {
+      display: none !important;
+    }
+    .lb-container {
+      background: rgba(0,0,0,0.92);
+    }
+    .lb-nav a.lb-prev, .lb-nav a.lb-next {
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    .lb-nav a.lb-prev:hover, .lb-nav a.lb-next:hover {
+      opacity: 1;
+    }
+    .lb-outerContainer {
+      background: transparent;
+      border-radius: 24px;
+    }
+    .lb-image {
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+    
+    @media (max-width: 640px) {
+      .stylish-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 12px;
+        padding: 16px;
+      }
+      .gallery-header h1 {
+        font-size: 1.8rem;
+      }
+    }
+    
+    @media (min-width: 1024px) {
+      .stylish-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 28px;
+        padding: 32px 40px;
+      }
+    }
+    
+    /* animated delays for graceful appear */
+    .gallery-card:nth-child(1) { animation-delay: 0.02s; }
+    .gallery-card:nth-child(2) { animation-delay: 0.05s; }
+    .gallery-card:nth-child(3) { animation-delay: 0.08s; }
+    .gallery-card:nth-child(4) { animation-delay: 0.11s; }
+    .gallery-card:nth-child(5) { animation-delay: 0.14s; }
+    .gallery-card:nth-child(6) { animation-delay: 0.17s; }
+    .gallery-card:nth-child(7) { animation-delay: 0.20s; }
+    .gallery-card:nth-child(8) { animation-delay: 0.23s; }
+    .gallery-card:nth-child(9) { animation-delay: 0.26s; }
+    .gallery-card:nth-child(10) { animation-delay: 0.29s; }
+  </style>
+</head>
+<body class="glossy-orange-bg">
+  
+  <!-- Background Logo Watermark -->
+  <img src="logo.png" alt="Jesus Youth KMC" class="bg-logo" onerror="this.style.opacity='0'">
 
+  <!-- Curved glass header -->
+  <header class="fixed top-0 left-0 w-full curved-glass-header z-50">
+    <div class="max-w-6xl mx-auto px-5 md:px-8 py-3 flex justify-between items-center">
+      <a href="#" class="flex items-center">
+        <img src="logo.png" alt="Jesus Youth KMC Logo" class="h-10 md:h-12 w-auto" onerror="this.src='https://placehold.co/50x50?text=JY'">
+      </a>
+      <nav class="hidden md:flex space-x-6 text-sm font-medium">
+        <a href="#" class="text-white hover:text-amber-200 transition">Home</a>
+        <a href="#" class="text-white hover:text-amber-200 transition">Gathering</a>
+        <a href="#" class="text-white hover:text-amber-200 transition">Ministries</a>
+        <a href="#" class="text-amber-200 border-b-2 border-amber-200 transition">Gallery</a>
+        <a href="#" class="text-white hover:text-amber-200 transition">Events</a>
+        <a href="#" class="text-white hover:text-amber-200 transition">Resources</a>
+        <a href="#" class="text-white hover:text-amber-200 transition">Support Us</a>
+        <a href="#" class="text-white hover:text-amber-200 transition">Join</a>
+      </nav>
+      <button id="menuBtn" class="md:hidden text-2xl text-white focus:outline-none">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Sidebar -->
+  <div id="mobileMenu" class="sidebar-menu">
+    <div class="flex justify-start p-5">
+      <button id="closeMenu" class="text-3xl text-white/80 hover:text-white">&times;</button>
+    </div>
+    <nav class="flex flex-col gap-3 px-6 py-4">
+      <a href="#" class="mobile-nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+      <a href="#" class="mobile-nav-link"><i class="fas fa-calendar-alt"></i><span>Gathering</span></a>
+      <a href="#" class="mobile-nav-link"><i class="fas fa-church"></i><span>Ministries</span></a>
+      <a href="#" class="mobile-nav-link"><i class="fas fa-images"></i><span>Gallery</span></a>
+      <a href="#" class="mobile-nav-link"><i class="fas fa-calendar-week"></i><span>Events</span></a>
+      <a href="#" class="mobile-nav-link"><i class="fas fa-download"></i><span>Resources</span></a>
+      <a href="#" class="mobile-nav-link"><i class="fas fa-hands-praying"></i><span>Support Us</span></a>
+      <a href="#" class="mobile-nav-link"><i class="fas fa-users"></i><span>Join</span></a>
+    </nav>
+  </div>
+  <div id="menuOverlay" class="menu-overlay"></div>
+
+  <main class="content-wrapper">
+    <div class="pt-24 pb-12">
+      <div class="gallery-header">
+        <div class="ornament">
+          <span></span>
+          <i class="fas fa-camera-retro text-amber-200/70 text-sm"></i>
+          <span></span>
+        </div>
+        <h1>Sacred Moments</h1>
+        <p>glimpses of faith, fellowship & joy</p>
+        <div class="photo-badge" id="photoBadge">
+          <i class="fas fa-images"></i>
+          <span id="photoCountDisplay">--</span>
+          <span>memories</span>
+        </div>
+      </div>
+      
+      <!-- Dynamic gallery grid -->
+      <div id="galleryGrid" class="stylish-gallery"></div>
+    </div>
+
+    <footer class="bg-black/30 text-white/80 py-8 text-center text-sm backdrop-blur-sm mt-8">
+      <div class="max-w-6xl mx-auto px-5">
+        <p class="font-semibold text-white">Jesus Youth KMC — Kottayam Medical College Campus Ministry</p>
+        <p class="mt-2 text-amber-100">A Campus Ministry under the Jesus Youth Movement</p>
+        <p class="text-amber-100 text-xs italic">young hearts on fire for Christ</p>
+        <div class="flex justify-center gap-5 mt-4 text-white text-lg">
+          <a href="https://www.instagram.com/jy_kmc?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="hover:text-amber-200 transition"><i class="fab fa-instagram"></i></a>
+          <a href="https://chat.whatsapp.com/ErFPeoEgqWnEW9GKsQACzj" target="_blank" class="hover:text-amber-200 transition"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <p class="mt-6 text-white/60 text-xs">© 2026 Jesus Youth KMC · All glory to God</p>
+      </div>
+    </footer>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox-plus-jquery.min.js"></script>
+  
+  <script>
+    // --------------------------------------------------------------
+    // 📸 JESUS YOUTH KMC GALLERY – LOCAL IMAGES PREVIEW
+    // --------------------------------------------------------------
+    // This version uses your exact repository structure:
+    // images/photo1.jpg, images/photo2.jpg, images/photo3.jpg, images/photo4.jpg
+    // To add more images, just extend the array with "images/photo5.jpg" etc.
+    // The gallery will automatically adapt. Images are loaded from local path.
+    // --------------------------------------------------------------
+    
+    // =========== 🔥 LOCAL IMAGES SETUP ===========
+    // Use your own images stored in the "images" folder.
+    // File names: photo1.jpg, photo2.jpg, photo3.jpg, photo4.jpg
+    // If you need additional photos, simply add more entries (e.g., "images/photo5.jpg")
+    const LOCAL_IMAGES = [
+      "images/photo1.jpg",
+      "images/photo2.jpg",
+      "images/photo3.jpg",
+      "images/photo4.jpg"
+    ];
+    
+    // Optional: You can also extend with more photos from external URLs if needed,
+    // but the main gallery uses your local images.
+    // To test fallback or add more style, feel free to add extra image strings.
+    // For a seamless experience, we will check if images exist and display anyway.
+    // =============================================
+    
+    // If you want to use more images beyond these four, just uncomment and add:
+    // "images/photo5.jpg", "images/photo6.jpg"
+    
+    // Combine main images (already includes 4). For now, using the exact array.
+    let galleryPhotos = [...LOCAL_IMAGES];
+    
+    // For extra safety: remove any potential duplicates or empty entries
+    galleryPhotos = galleryPhotos.filter(path => path && path.trim() !== "");
+    
+    // DOM Elements
+    const galleryContainer = document.getElementById('galleryGrid');
+    const photoCountSpan = document.getElementById('photoCountDisplay');
+    
+    // Helper: update lightbox config and custom styling
+    function configLightboxMinimal() {
+      if (typeof lightbox !== 'undefined') {
+        lightbox.option({
+          'resizeDuration': 200,
+          'fadeDuration': 300,
+          'imageFadeDuration': 350,
+          'wrapAround': true,
+          'albumLabel': '',
+          'showImageNumberLabel': false,
+          'disableScrolling': true,
+          'alwaysShowNavOnTouchDevices': true
+        });
+        
+        // Ensure no captions / extra UI appears
+        const existingStyle = document.getElementById('lb-custom-style');
+        if (!existingStyle) {
+          const style = document.createElement('style');
+          style.id = 'lb-custom-style';
+          style.textContent = `
+            .lb-data .lb-caption, .lb-data .lb-number, .lb-close { display: none !important; }
+            .lb-nav a.lb-prev, .lb-nav a.lb-next { opacity: 0.7; transition: 0.2s; }
+            .lb-nav a.lb-prev:hover, .lb-nav a.lb-next:hover { opacity: 1; }
+            .lb-container { background: rgba(0, 0, 0, 0.92); }
+            .lb-outerContainer { background: transparent; border-radius: 28px; }
+            .lb-image { border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+          `;
+          document.head.appendChild(style);
+        }
+      }
+    }
+    
+    // Render glassmorphic gallery cards with local images
+    function renderLocalGallery(imagesArray) {
+      if (!galleryContainer) return;
+      
+      // If there are no images, display a warm empty state
+      if (!imagesArray.length) {
+        galleryContainer.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-images text-5xl text-white/40 mb-4"></i>
+            <p class="text-white/80 text-xl font-medium">Preparing sacred memories</p>
+            <p class="text-white/60 text-sm mt-2">We'll soon fill this gallery with fellowship moments</p>
+            <div class="mt-4 inline-block px-4 py-1 bg-white/10 rounded-full text-amber-200 text-xs">Psalm 145:5</div>
+          </div>
+        `;
+        if (photoCountSpan) photoCountSpan.innerText = '0';
+        return;
+      }
+      
+      let cardsHtml = '';
+      for (let i = 0; i < imagesArray.length; i++) {
+        const imgPath = imagesArray[i];
+        // Add lightbox anchor for fullscreen immersive view
+        cardsHtml += `
+          <div class="gallery-card">
+            <a href="${imgPath}" data-lightbox="jy-gallery" data-title="">
+              <div class="card-image">
+                <img src="${imgPath}" alt="Jesus Youth KMC memory" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/600x600?text=JY+Faith&bg=FF8C42&textColor=white';">
+                <div class="card-overlay"></div>
+              </div>
+            </a>
+          </div>
+        `;
+      }
+      
+      galleryContainer.innerHTML = cardsHtml;
+      
+      // Update badge with photo count
+      if (photoCountSpan) {
+        photoCountSpan.innerText = imagesArray.length;
+      }
+      
+      // After rendering, ensure lightbox works for dynamically added links
+      if (typeof lightbox !== 'undefined') {
+        lightbox.init();
+        configLightboxMinimal();
+      } else {
+        // If lightbox not loaded yet, wait a bit but it will be available
+        setTimeout(() => {
+          if (typeof lightbox !== 'undefined') {
+            lightbox.init();
+            configLightboxMinimal();
+          }
+        }, 100);
+      }
+      
+      // Also add small console info for developers (silent success)
+      console.log(`✨ JY Gallery: ${imagesArray.length} beautiful moments loaded.`);
+    }
+    
+    // Function to pre-check image existence optionally (soft fail handled by onerror)
+    // We directly render; broken images will fallback to placeholder but user sees that
+    // They can replace with actual photos. This ensures the gallery structure is always beautiful.
+    
+    // MAIN INITIALIZATION
+    document.addEventListener('DOMContentLoaded', () => {
+      renderLocalGallery(galleryPhotos);
+      
+      // Re-attach lightbox for any possible late interactions, and handle resize events
+      if (typeof lightbox !== 'undefined') {
+        configLightboxMinimal();
+      }
+      
+      // Optional: add click handler for any future dynamic modifications (robust)
+      const observer = new MutationObserver(() => {
+        if (typeof lightbox !== 'undefined') {
+          lightbox.init();
+          configLightboxMinimal();
+        }
+      });
+      if (galleryContainer) observer.observe(galleryContainer, { childList: true, subtree: true });
+    });
+    
+    // MOBILE MENU LOGIC (keep consistent)
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const closeMenuBtn = document.getElementById('closeMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
+    
+    function openMenu() {
+      if (mobileMenu && menuOverlay) {
+        mobileMenu.classList.add('open');
+        menuOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+    function closeMenuFunction() {
+      if (mobileMenu && menuOverlay) {
+        mobileMenu.classList.remove('open');
+        menuOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+    if (menuBtn) menuBtn.addEventListener('click', openMenu);
+    if (closeMenuBtn) closeMenuBtn.addEventListener('click', closeMenuFunction);
+    if (menuOverlay) menuOverlay.addEventListener('click', closeMenuFunction);
+    
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', closeMenuFunction);
+    });
+    
+    // Fix vh for mobile browsers
+    function setVH() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    window.addEventListener('resize', setVH);
+    setVH();
+    
+    // Optional badge shimmer effect
+    const badge = document.querySelector('.photo-badge');
+    if (badge) {
+      badge.style.transition = 'all 0.2s';
+    }
+    
+    // Add a note for developers: if images/photo1.jpg etc do not exist yet,
+    // please ensure you have added 4 photos to the repository under "images" folder.
+    // In your GitHub repo "jesusyouthkmc/Jykmc-gallery-preview", the structure should be:
+    //   index.html (this file)
+    //   images/
+    //     photo1.jpg
+    //     photo2.jpg
+    //     photo3.jpg
+    //     photo4.jpg
+    // That's it! The gallery will perfectly showcase your photos with glossy cards.
+    // For more photos, just append new entries to LOCAL_IMAGES array.
+  </script>
+</body>
+</html>
