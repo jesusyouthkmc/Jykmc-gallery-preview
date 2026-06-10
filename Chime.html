@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Audio API Demo - Prayer Chime</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: linear-gradient(135deg, #FF8C42, #FF6B35);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      border-radius: 30px;
+      padding: 40px;
+      text-align: center;
+      max-width: 500px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+    button {
+      background: #FF6B35;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      margin: 10px;
+      transition: transform 0.2s;
+    }
+    button:hover {
+      transform: scale(1.05);
+    }
+    .note {
+      background: #f0f0f0;
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 20px;
+      font-family: monospace;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔔 Prayer Chime Tester</h1>
+    <p>Click the buttons to hear different sounds</p>
+    
+    <button onclick="playChime()">🎵 Gentle Chime</button>
+    <button onclick="playAmenTone()">🙏 Amen-like Tone</button>
+    <button onclick="playBell()">🔔 Soft Bell</button>
+    
+    <div class="note">
+      <strong>📝 How it works:</strong><br>
+      The browser generates sound using JavaScript - no audio files needed!
+    </div>
+  </div>
+
+  <script>
+    // Function to play a gentle chime sound
+    function playChime() {
+      try {
+        // Create audio context (like a sound engine)
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // Create oscillator (sound wave generator)
+        const oscillator = audioContext.createOscillator();
+        
+        // Create gain node (volume control)
+        const gainNode = audioContext.createGain();
+        
+        // Connect: oscillator → gain → speakers
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        // Set sound type: 'sine' = smooth, 'triangle' = soft, 'square' = buzzy
+        oscillator.type = 'sine';
+        
+        // Set pitch: 523.25 Hz = C5 note (pleasant chime)
+        oscillator.frequency.value = 523.25;
+        
+        // Volume: 0.3 = 30% (gentle)
+        gainNode.gain.value = 0.3;
+        
+        // Start the sound
+        oscillator.start();
+        
+        // Stop after 0.8 seconds
+        oscillator.stop(audioContext.currentTime + 0.8);
+        
+        // Fade out gradually
+        gainNode.gain.exponentialRampToValueAtTime(0.00001, audioContext.currentTime + 0.8);
+        
+        // Resume audio if browser suspended it
+        if (audioContext.state === 'suspended') {
+          audioContext.resume();
+        }
+      } catch(e) {
+        console.log('Audio not supported:', e);
+        alert('Your browser does not support Web Audio API');
+      }
+    }
+    
+    // Function to play an "Amen-like" tone (two notes)
+    function playAmenTone() {
+      try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // First note - higher pitch
+        const osc1 = audioContext.createOscillator();
+        const gain1 = audioContext.createGain();
+        osc1.connect(gain1);
+        gain1.connect(audioContext.destination);
+        osc1.type = 'sine';
+        osc1.frequency.value = 523.25; // C note
+        gain1.gain.value = 0.25;
+        
+        // Second note - lower pitch (after 0.4 seconds)
+        const osc2 = audioContext.createOscillator();
+        const gain2 = audioContext.createGain();
+        osc2.connect(gain2);
+        gain2.connect(audioContext.destination);
+        osc2.type = 'sine';
+        osc2.frequency.value = 392.00; // G note
+        gain2.gain.value = 0.25;
+        
+        osc1.start();
+        osc1.stop(audioContext.currentTime + 0.5);
+        gain1.gain.exponentialRampToValueAtTime(0.00001, audioContext.currentTime + 0.5);
+        
+        osc2.start(audioContext.currentTime + 0.4);
+        osc2.stop(audioContext.currentTime + 0.9);
+        gain2.gain.exponentialRampToValueAtTime(0.00001, audioContext.currentTime + 0.9);
+        
+        if (audioContext.state === 'suspended') {
+          audioContext.resume();
+        }
+      } catch(e) {
+        alert('Audio not supported');
+      }
+    }
+    
+    // Function to play a soft bell sound
+    function playBell() {
+      try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.type = 'sine';
+        oscillator.frequency.value = 880; // A note (higher)
+        gainNode.gain.value = 0.15; // Lower volume
+        
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.4);
+        
+        // Quick fade out
+        gainNode.gain.exponentialRampToValueAtTime(0.00001, audioContext.currentTime + 0.4);
+        
+        if (audioContext.state === 'suspended') {
+          audioContext.resume();
+        }
+      } catch(e) {
+        alert('Audio not supported');
+      }
+    }
+  </script>
+</body>
+</html>
